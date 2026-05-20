@@ -56,10 +56,6 @@ AddEncoding gzip svgz
   FallbackResource /index.php
 </IfModule>
 
-
-
-
-
 # Various rewrite rules.
 <IfModule mod_rewrite.c>
   RewriteEngine on
@@ -68,14 +64,8 @@ AddEncoding gzip svgz
   # if you enable "www." stripping or enforcement, in order to ensure that
   # you don't bounce between http and https.
   RewriteRule ^ - [E=protossl]
-
-  # Redirect HTTP to HTTPS
-  RewriteCond %{HTTPS} !=on
-  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-
-  # Redirect www to non-www over HTTPS
-  RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
-  RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+  RewriteCond %{HTTPS} on
+  RewriteRule ^ - [E=protossl:s]
 
   # Make sure Authorization HTTP header is available to PHP
   # even when running as CGI or FastCGI.
